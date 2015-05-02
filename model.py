@@ -47,12 +47,36 @@ class Source_texts(Base):
 	__tablename__ = "source_texts"
 	id = Column(Integer, primary_key = True)
 	title = Column(String(200), unique = True, nullable = False)
-	author = Column(String(200))
+	author_id = Column(Integer, ForeignKey("authors.id"))
 	topic_id = Column(Integer, ForeignKey("topics.id"))
 
 	def __repr__(self):
-		return "Title: %s, By: " % self.topic_name
+		return "Title: %s" % self.topic_name
 
 class Words(Base):
 
 	__tablename__ = "words"
+
+	id = Column(Integer, primary_key = True)
+	word = Column(String(200), nullable = False)
+	source_id = Column(Integer)
+
+	def __repr__(self):
+		return " word: %s" % self.word
+
+class Linked_words(Base):
+
+	__tablename__ = "linked_words"
+
+	id = Column(Integer, primary_key = True)
+	word1_id = Column(Integer, ForeignKey("words.id"))
+	word2_id = Column(Integer, ForeignKey("words.id"))
+
+	
+	def __repr__(self):
+		return "Word 1 ID: %d , Word 2 ID: %d" % (self.word1_id, self.word2_id)
+
+class Next_words(Base):
+	pass
+	
+

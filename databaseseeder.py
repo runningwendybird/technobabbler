@@ -44,10 +44,12 @@ def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
     based off an original text."""
 
+    #selects a random key
     current_key = random.choice(chains.keys())
+    # creates a string with the first two words.
     s = current_key[0] + " " + current_key[1]
     count = 0
-    while current_key in chains and count < 150:
+    while current_key in chains:
         #print current_key
         next_word = random.choice(chains[current_key])
         #print next_word
