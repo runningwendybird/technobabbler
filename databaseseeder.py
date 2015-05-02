@@ -1,6 +1,7 @@
 
 import sys
 import random
+import model
 
 
 def make_chains(corpus):
@@ -40,23 +41,41 @@ def make_chains(corpus):
 
 
 
-def make_text(chains):
-    """Takes a dictionary of markov chains and returns random text
-    based off an original text."""
+# def make_text(chains):
+#     """Takes a dictionary of markov chains and returns random text
+#     based off an original text."""
 
-    #selects a random key
-    current_key = random.choice(chains.keys())
-    # creates a string with the first two words.
-    s = current_key[0] + " " + current_key[1]
-    count = 0
-    while current_key in chains:
-        #print current_key
-        next_word = random.choice(chains[current_key])
-        #print next_word
-        s = s + " " + next_word
-        current_key = (current_key[-1], next_word)
-        count = count + 1
-    return s
+#     #selects a random key
+#     current_key = random.choice(chains.keys())
+#     # creates a string with the first two words.
+#     s = current_key[0] + " " + current_key[1]
+#     count = 0
+#     while current_key in chains:
+#         #print current_key
+#         next_word = random.choice(chains[current_key])
+#         #print next_word
+#         s = s + " " + next_word
+#         current_key = (current_key[-1], next_word)
+#         count = count + 1
+#     return s
+
+def add_author_and_paper():
+    """Checks to see if author is in db and adds him/her if not.
+    Adds paper to database."""
+    #get's author's name from the user.
+    
+    author_first = input("Enter author's first name: ")
+    author_last = input("Enter author's last name: ")
+    
+    # creates new author object and adds it to the database.
+
+    new_author_obj = model.Author(first = author_first.lower(), last = author_last.lower())
+    model.sqla_session.add(new_author_obj)
+    model.sqla_session.commit()
+
+    #gets the author object back out of the database.
+    author = model.find_author_by_name(author_first, author_last)
+
 
 
 def main():
@@ -66,8 +85,8 @@ def main():
 
     input_file = open(file_to_open)
     chain_dict = make_chains(input_file)
-    random_text = make_text(chain_dict)
-    print random_text
+    # random_text = make_text(chain_dict)
+    # print random_text
     input_file.close()
 
 

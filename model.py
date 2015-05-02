@@ -96,6 +96,10 @@ def create_db():
 	Base.metadata.create_all(ENGINE)
 
 
+def find_author_by_name(first, last):
+
+	author = sqla_session.query(Author).filter(author.first == first.lower() and author.last == last.lower()).all()
+	return author
 
 
 
