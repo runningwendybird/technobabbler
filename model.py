@@ -77,6 +77,25 @@ class Linked_words(Base):
 		return "Word 1 ID: %d , Word 2 ID: %d" % (self.word1_id, self.word2_id)
 
 class Next_words(Base):
-	pass
-	
+	id = Column(Integer, primary_key = True)
+	linked_word_id = Column(Integer, ForeignKey("linked_words.id"))
+	word_id = Column(Integer, ForeignKey("words.id"))
+
+	def __repr__(self):
+		return "Next Word ID: %d" % self.word_id
+
+
+# End of Classes
+
+
+# Functions
+
+def create_db():
+	"""Recreates the database."""
+
+	Base.metadata.create_all(ENGINE)
+
+
+
+
 
