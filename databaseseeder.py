@@ -59,7 +59,7 @@ def make_chains(corpus):
 #         count = count + 1
 #     return s
 
-def add_author_and_paper():
+def add_author_topic_and_paper():
     """Checks to see if author is in db and adds him/her if not.
     Adds paper to database."""
     #get's author's name from the user.
@@ -67,14 +67,44 @@ def add_author_and_paper():
     author_first = input("Enter author's first name: ")
     author_last = input("Enter author's last name: ")
     
-    # creates new author object and adds it to the database.
+    #checks to see if author is in the db. 
+    # If not, adds the author to the database and
+    # gets creates an author object. 
 
-    new_author_obj = model.Author(first = author_first.lower(), last = author_last.lower())
-    model.sqla_session.add(new_author_obj)
-    model.sqla_session.commit()
-
-    #gets the author object back out of the database.
     author = model.find_author_by_name(author_first, author_last)
+
+    if author == None:
+
+        # creates new author object and adds it to the database.
+
+        new_author_obj = model.Author(first = author_first.lower(), last = author_last.lower())
+        model.sqla_session.add(new_author_obj)
+        model.sqla_session.commit()
+
+        #gets the author object back out of the database.
+        author = model.find_author_by_name(author_first, author_last)
+
+    else:
+
+        pass
+
+    # Checks to see if topic is in db and adds it if not.
+
+    topics = model.find_all_topics()
+    print "Here are all the topics currently in the database:"
+
+    for i in range(len(topics)):
+        print i, topics[i]
+
+    avaiable = input("enter y if the topic of this paper is displayed. enter another key if not." )
+
+    if available.lower() == "y":
+        select = int(input("please input the number that appears next to the topic of the source text. "))
+        
+
+
+
+
 
 
 

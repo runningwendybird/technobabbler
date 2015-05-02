@@ -97,9 +97,16 @@ def create_db():
 
 
 def find_author_by_name(first, last):
-
-	author = sqla_session.query(Author).filter(author.first == first.lower() and author.last == last.lower()).all()
+	"""returns an author with a given first and last name.
+	returns none"""
+	author = sqla_session.query(Author).filter(author.first == first.lower() and author.last == last.lower()).first()
 	return author
+
+def find_all_topics():
+	"""returns a list of all currently available topics."""
+	topics = sqla_session.query(Topic).all()
+	return topics
+
 
 
 
